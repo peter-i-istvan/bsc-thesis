@@ -1,0 +1,9 @@
+data/kitti/test/images
+data/kitti/train/images
+data/kitti/train/labels
+data/*.zip
+thesis-latex/
+!thesis-latex/.gitkeep
+!data/kitti/test/images/.gitkeep
+!data/kitti/train/images/.gitkeep
+!data/kitti/train/labels/.gitkeep

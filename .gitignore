@@ -1,10 +1,7 @@
 .vscode/
 venv/
-
-data/kitti/test/images
-data/kitti/train/images
-data/kitti/train/labels
-data/*.zip
+data/
+detrac_yolo/
 thesis-latex/
 !thesis-latex/.gitkeep
 !data/kitti/test/images/.gitkeep

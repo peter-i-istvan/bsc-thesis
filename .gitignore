@@ -1,3 +1,6 @@
+.vscode/
+venv/
+
 data/kitti/test/images
 data/kitti/train/images
 data/kitti/train/labels

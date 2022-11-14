@@ -94,6 +94,12 @@ def get_sequence_annotation(labels_root: str, sequence: str) -> tuple[np.ndarray
     assert X.shape[1] == Y.shape[1] == W.shape[1] == H.shape[1]
     return X, Y, W, H, frameNums
 
+def convert2center(labels: np.ndarray) -> np.ndarray:
+    '''Converts rows of [classid, xmin, ymin, w, h] to [classid, xcenter, ycenter, w, h]'''
+    new_labels = labels.copy() # for safety's sake
+    new_labels[:, 1:3] = labels[:, 1:3] + labels[:, 3:5]/2.
+    return new_labels
+
 def matrix2string(m: np.ndarray) -> str:
     '''Converts numpy matrix to custom string format'''
     assert m.ndim == 2
@@ -107,7 +113,7 @@ def process_folders(folders: Folders, split: Split):
     for subdir in (pbar := tqdm(os.listdir(folders.images_root))):
         if subdir in split.train:
             dest_images_root = folders.train_images_root
-            dest_labels_root = folders.val_labels_root
+            dest_labels_root = folders.train_labels_root
             split_name = 'train'
         elif subdir in split.val:
             dest_images_root = folders.val_images_root
@@ -138,8 +144,20 @@ def process_folders(folders: Folders, split: Split):
                 ]
                 annot = np.hstack(to_stack)
                 annot = annot[~np.all(annot == 0, axis=1)]      # remove all 0. rows
+                annot = convert2center(annot)
                 file_content = matrix2string(annot)
                 file.write(file_content)    
+
+def write_yaml(folders: Folders, filename: str = 'custom'):
+    file_path = os.path.join(folders.output_dataset_root, f'{filename}.yaml')
+    with open(file_path, 'w') as file:
+        train_abspath = os.path.abspath(folders.train_dataset_root)
+        val_abspath = os.path.abspath(folders.val_dataset_root)
+        train_line = f'train: {train_abspath}'
+        val_line = f'val: {val_abspath}'
+        nc_line = 'nc: 1'
+        names_line = 'names: ["car"]'
+        file.write(f'{train_line}\n{val_line}\n{nc_line}\n{names_line}')
 
 def main():
     args = parse_args()
@@ -149,6 +167,7 @@ def main():
     folders = make_foldernames(args.images, args.labels, args.output_dataset)
     make_folders(folders)
     process_folders(folders, split)
+    write_yaml(folders)
     
 if __name__ == '__main__':
     main()

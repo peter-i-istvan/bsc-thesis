@@ -2,8 +2,6 @@
 venv/
 data/
 detrac_yolo/
-thesis-latex/
-!thesis-latex/.gitkeep
 !data/kitti/test/images/.gitkeep
 !data/kitti/train/images/.gitkeep
 !data/kitti/train/labels/.gitkeep

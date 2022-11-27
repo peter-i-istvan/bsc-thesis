@@ -94,12 +94,6 @@ def get_sequence_annotation(labels_root: str, sequence: str) -> tuple[np.ndarray
     assert X.shape[1] == Y.shape[1] == W.shape[1] == H.shape[1]
     return X, Y, W, H, frameNums
 
-def convert2center(labels: np.ndarray) -> np.ndarray:
-    '''Converts rows of [classid, xmin, ymin, w, h] to [classid, xcenter, ycenter, w, h]'''
-    new_labels = labels.copy() # for safety's sake
-    new_labels[:, 1:3] = labels[:, 1:3] + labels[:, 3:5]/2.
-    return new_labels
-
 def matrix2string(m: np.ndarray) -> str:
     '''Converts numpy matrix to custom string format'''
     assert m.ndim == 2
@@ -144,7 +138,6 @@ def process_folders(folders: Folders, split: Split):
                 ]
                 annot = np.hstack(to_stack)
                 annot = annot[~np.all(annot == 0, axis=1)]      # remove all 0. rows
-                annot = convert2center(annot)
                 file_content = matrix2string(annot)
                 file.write(file_content)    
 

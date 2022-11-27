@@ -1,0 +1,3 @@
+[submodule "thesis-latex"]
+	path = thesis-latex
+	url = https://github.com/peter-i-istvan/thesis-latex

@@ -5,3 +5,6 @@ detrac_yolo/
 !data/kitti/test/images/.gitkeep
 !data/kitti/train/images/.gitkeep
 !data/kitti/train/labels/.gitkeep
+*.pt
+detections/
+!detections/gitkeep

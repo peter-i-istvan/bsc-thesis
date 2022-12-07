@@ -133,7 +133,7 @@ def main():
         ModelDesc(kind='detr', repo='facebook/detr-resnet-101', name='detr-resnet-101')
     ]
     sequences_root = 'data/DETRAC-train-data/Insight-MVT_Annotation_Train/'
-    conf_thresholds = np.linspace(start=1.0, stop=0.0, num=11)
+    conf_thresholds = np.linspace(start=0.9, stop=0.0, num=10)
     save_predictions_on_images = False
     # set output folder:
     out_root = 'tracking/detections/'
